@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hush Hush Campaign | O Glow Perfeito</title>
+    
+    <!-- SEO Schema JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Clínica Lumière",
+      "image": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80",
+      "@id": "",
+      "url": "https://lumiere-premium.com",
+      "telephone": "+5531999990000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Exemplo, 123",
+        "addressLocality": "Belo Horizonte",
+        "addressRegion": "MG",
+        "postalCode": "30000-000",
+        "addressCountry": "BR"
+      },
+      "priceRange": "$$$"
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#FF007F',
+                            yellow: '#FFD700',
+                            light: '#FAFAFA',
+                            dark: '#111111',
+                            gray: '#F3F4F6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: 0, transform: 'translateY(40px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #FAFAFA; color: #111111; overflow-x: hidden; }
+        
+        /* Utils */
+        .glass-nav { background: rgba(250, 250, 250, 0.85); backdrop-filter: blur(12px); border-bottom: 2px solid #111; }
+        .brutal-shadow { box-shadow: 8px 8px 0px 0px rgba(17,17,17,1); border: 2px solid #111; transition: transform 0.2s, box-shadow 0.2s; }
+        .brutal-shadow:hover { transform: translate(4px, 4px); box-shadow: 4px 4px 0px 0px rgba(17,17,17,1); }
+        .brutal-shadow-sm { box-shadow: 4px 4px 0px 0px rgba(17,17,17,1); border: 2px solid #111; }
+        
+        /* Checkerboard Pattern */
+        .bg-checkerboard {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(45deg, #fce7f3 25%, transparent 25%, transparent 75%, #fce7f3 75%, #fce7f3),
+                linear-gradient(45deg, #fce7f3 25%, transparent 25%, transparent 75%, #fce7f3 75%, #fce7f3);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        /* Scroll Reveal Base */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s ease-out; }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.8s ease-out; }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        /* Custom Marquee */
+        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; border-top: 2px solid #111; border-bottom: 2px solid #111; background: #FFD700; padding: 10px 0; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        .marquee-content span { font-weight: 900; text-transform: uppercase; font-size: 1.5rem; margin-right: 2rem; color: #111; }
+        
+        /* FAQ Accordion */
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+        
+        /* Custom Button Animation */
+        .btn-brutal {
+            position: relative;
+            background: #FF007F;
+            border: 2px solid #111;
+            color: #FFF;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-brutal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: #111;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .btn-brutal:hover { color: #FFD700; }
+        .btn-brutal:hover::before { width: 100%; }
+        
+        /* Form Floating Labels */
+        .form-input-container { position: relative; }
+        .form-input-container input, .form-input-container select {
+            width: 100%;
+            padding: 1.2rem;
+            background: #FAFAFA;
+            border: 2px solid #111;
+            outline: none;
+            transition: border-color 0.2s;
+            font-weight: 500;
+        }
+        .form-input-container input:focus, .form-input-container select:focus {
+            border-color: #FF007F;
+        }
+        .form-input-container label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            background: #FAFAFA;
+            padding: 0 0.5rem;
+            transition: 0.3s ease all;
+            pointer-events: none;
+        }
+        .form-input-container input:focus ~ label,
+        .form-input-container input:not(:placeholder-shown) ~ label {
+            top: 0;
+            color: #FF007F;
+            transform: translateY(-50%) scale(0.9);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-pink selection:text-white">
+
+    <!-- Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1.5 bg-brand-pink z-50 transition-all duration-150 ease-out" style="width: 0%"></div>
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-dark text-white text-center py-2 px-4 text-xs md:text-sm font-bold tracking-widest uppercase relative z-50">
+        Últimas vagas para a Hush Hush Campaign — <a href="#agendar" class="text-brand-yellow underline hover:text-brand-pink transition-colors">Agende agora</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-40 glass-nav py-4 transition-all duration-300 top-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
+            <a href="#" class="font-display font-bold text-3xl tracking-tighter text-brand-dark flex items-center gap-2 group">
+                <svg class="w-8 h-8 text-brand-pink group-hover:rotate-180 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+                LUMIÈRE
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="#conceito" class="text-sm font-black uppercase text-brand-dark hover:text-brand-pink transition-colors tracking-widest">O Segredo</a>
+                <a href="#metodo" class="text-sm font-black uppercase text-brand-dark hover:text-brand-pink transition-colors tracking-widest">Método</a>
+                <a href="#depoimentos" class="text-sm font-black uppercase text-brand-dark hover:text-brand-pink transition-colors tracking-widest">Relatos</a>
+                <a href="#faq" class="text-sm font-black uppercase text-brand-dark hover:text-brand-pink transition-colors tracking-widest">Dúvidas</a>
+                <a href="#agendar" class="btn-brutal px-8 py-3 shadow-[4px_4px_0px_rgba(17,17,17,1)]">Reservar Vaga</a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-brand-dark focus:outline-none">
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-brand-light border-b-2 border-brand-dark flex flex-col px-6 py-6 space-y-6 shadow-2xl">
+            <a href="#conceito" class="text-lg font-black uppercase tracking-widest text-brand-dark hover:text-brand-pink">O Segredo</a>
+            <a href="#metodo" class="text-lg font-black uppercase tracking-widest text-brand-dark hover:text-brand-pink">Método</a>
+            <a href="#depoimentos" class="text-lg font-black uppercase tracking-widest text-brand-dark hover:text-brand-pink">Relatos</a>
+            <a href="#faq" class="text-lg font-black uppercase tracking-widest text-brand-dark hover:text-brand-pink">Dúvidas</a>
+            <a href="#agendar" class="btn-brutal text-center px-6 py-4 brutal-shadow-sm">Reservar Vaga</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-brand-light">
+        <!-- Abstract Shapes -->
+        <div class="absolute right-0 top-1/4 w-1/2 h-[600px] bg-gradient-to-br from-brand-pink/20 to-brand-yellow/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+        <div class="absolute -left-32 bottom-0 w-96 h-96 bg-brand-pink/10 blur-[80px] rounded-full pointer-events-none -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full mt-10 md:mt-0">
+            
+            <div class="col-span-1 lg:col-span-7 flex flex-col items-start text-left relative z-10">
+                <div class="inline-block py-2 px-4 bg-brand-dark text-brand-yellow font-black tracking-widest uppercase text-xs mb-8 brutal-shadow-sm animate-fade-in-up">
+                    Acesso Restrito
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl lg:text-8xl font-black font-display text-brand-dark leading-[1.05] mb-6 animate-fade-in-up" style="animation-delay: 0.1s">
+                    O segredo para<br/>o <span class="text-brand-pink italic">glow perfeito</span><br/>foi revelado.
+                </h1>
+                
+                <p class="text-xl text-gray-700 font-medium mb-12 max-w-xl leading-relaxed animate-fade-in-up" style="animation-delay: 0.2s">
+                    Sua pele iluminada não precisa esperar o verão. A <strong class="text-brand-dark">Hush Hush Campaign</strong> traz a tecnologia definitiva em Spray Tan. Agende sua sessão exclusiva antes que as vagas esgotem.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto animate-fade-in-up" style="animation-delay: 0.3s">
+                    <a href="#agendar" class="btn-brutal text-lg py-5 px-10 brutal-shadow text-center group flex items-center justify-center gap-3">
+                        Garantir Minha Vaga
+                        <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                </div>
+
+                <div class="mt-12 flex items-center gap-4 opacity-60 grayscale animate-fade-in-up" style="animation-delay: 0.5s">
+                    <span class="text-xs font-bold uppercase tracking-widest">Tecnologia reconhecida:</span>
+                    <div class="flex gap-6">
+                        <span class="font-display font-black text-xl">VOGUE</span>
+                        <span class="font-sans font-black text-xl italic">ELLE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image / Visual -->
+            <div class="col-span-1 lg:col-span-5 relative h-[500px] lg:h-[700px] w-full mt-12 lg:mt-0 animate-fade-in-up" style="animation-delay: 0.2s">
+                <div class="absolute inset-0 bg-brand-yellow transform rotate-3 brutal-shadow rounded-sm z-0"></div>
+                <div class="absolute inset-0 bg-white brutal-shadow z-10 overflow-hidden flex items-center justify-center p-4">
+                    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80" alt="Mulher com pele bronzeada" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    
+                    <div class="absolute -right-6 top-1/4 bg-white p-4 brutal-shadow z-20 hidden md:block animate-float">
+                        <p class="font-black text-brand-pink text-3xl">15 Min.</p>
+                        <p class="font-bold text-xs uppercase tracking-widest text-brand-dark">Secagem Express</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Marquee Divider -->
+    <div class="marquee-container my-16">
+        <div class="marquee-content">
+            <span>O Segredo Revelado</span><span>•</span>
+            <span>Zero Tons Alaranjados</span><span>•</span>
+            <span>Secagem Imediata</span><span>•</span>
+            <span>Duração Prolongada</span><span>•</span>
+            <span>O Segredo Revelado</span><span>•</span>
+            <span>Zero Tons Alaranjados</span><span>•</span>
+            <span>Secagem Imediata</span><span>•</span>
+            <span>Duração Prolongada</span><span>•</span>
+            <span>O Segredo Revelado</span><span>•</span>
+            <span>Zero Tons Alaranjados</span><span>•</span>
+            <span>Secagem Imediata</span><span>•</span>
+            <span>Duração Prolongada</span><span>•</span>
+        </div>
+    </div>
+
+    <!-- Conceito Lifestyle (Foto das Amigas) -->
+    <section id="conceito" class="py-24 bg-brand-light relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                
+                <div class="relative reveal-left order-2 lg:order-1">
+                    <div class="absolute -inset-4 bg-brand-pink/20 blur-xl rounded-full"></div>
+                    <div class="relative brutal-shadow bg-white p-3 z-10">
+                        <!-- Imagem das amigas gerada pela IA entra aqui -->
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953eb1b5b6?auto=format&fit=crop&q=80" alt="Amigas no café com pele iluminada" class="w-full aspect-[4/5] object-cover filter brightness-110 contrast-125">
+                        
+                        <div class="absolute -bottom-10 -right-10 bg-white p-2 brutal-shadow transform rotate-12 hidden md:block w-48">
+                            <img src="https://images.unsplash.com/photo-1509937528035-ad76254b0356?auto=format&fit=crop&q=80" alt="Textura de pele" class="w-full h-32 object-cover">
+                            <p class="font-bold text-[10px] uppercase tracking-widest text-center mt-2 text-brand-dark">#GlowUrbano</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2 reveal-right">
+                    <h2 class="text-5xl md:text-6xl font-black font-display text-brand-dark mb-8 leading-[1.1]">
+                        Aquele bronzeado de férias, <br/><span class="text-brand-pink bg-brand-yellow/30 px-2">no meio da sua rotina.</span>
+                    </h2>
+                    <p class="text-xl text-gray-700 leading-relaxed mb-10 font-medium">
+                        Você, suas amigas, um café no meio da tarde e uma pele impecável. A <strong>Hush Hush Campaign</strong> foi desenhada para a mulher que exige um resultado de alto padrão sem perder horas no sol ou em clínicas antiquadas.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-brand-pink text-white flex items-center justify-center font-black brutal-shadow-sm shrink-0">01</div>
+                            <div>
+                                <h4 class="font-black text-xl text-brand-dark mb-1">Colorometria Exata</h4>
+                                <p class="text-gray-600">Esqueça os tons artificiais. A fórmula é manipulada na hora com base na melanina natural da sua pele.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-brand-yellow text-brand-dark flex items-center justify-center font-black brutal-shadow-sm shrink-0">02</div>
+                            <div>
+                                <h4 class="font-black text-xl text-brand-dark mb-1">Volte Direto Pro Escritório</h4>
+                                <p class="text-gray-600">Aplicação em 15 minutos e secagem ultrarrápida. Vista roupas claras logo em seguida sem medo.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-brand-dark text-white flex items-center justify-center font-black brutal-shadow-sm shrink-0">03</div>
+                            <div>
+                                <h4 class="font-black text-xl text-brand-dark mb-1">Tratamento e Hidratação</h4>
+                                <p class="text-gray-600">Nossa névoa contém Ácido Hialurônico. Nós tratamos a sua pele enquanto entregamos a cor perfeita.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Reminder (Interactive Checkerboard UI) -->
+    <section class="py-40 bg-checkerboard border-y-[3px] border-brand-dark relative flex justify-center items-center px-6 overflow-hidden">
+        
+        <h2 class="absolute text-[15vw] font-black font-display text-brand-pink/5 whitespace-nowrap pointer-events-none select-none">HUSH HUSH</h2>
+
+        <div class="bg-white w-full max-w-lg brutal-shadow p-0 text-center rounded-sm relative z-10 transform hover:scale-105 transition-transform duration-500 reveal">
+            <div class="bg-brand-gray border-b-2 border-brand-dark px-4 py-3 flex justify-between items-center">
+                <div class="flex gap-2">
+                    <div class="w-3 h-3 rounded-full border-2 border-brand-dark bg-brand-pink"></div>
+                    <div class="w-3 h-3 rounded-full border-2 border-brand-dark bg-brand-yellow"></div>
+                    <div class="w-3 h-3 rounded-full border-2 border-brand-dark bg-brand-dark"></div>
+                </div>
+                <span class="font-mono text-xs font-bold uppercase tracking-widest text-brand-dark">System_Alert</span>
+                <span class="w-16"></span>
+            </div>
+            
+            <div class="p-12 bg-brand-light">
+                <h3 class="text-2xl font-black tracking-widest text-brand-dark uppercase mb-2">Reminder</h3>
+                <p class="text-brand-pink font-black text-3xl mb-12 font-display italic">It is time for a spray tan.</p>
+                
+                <a href="#agendar" class="block w-full bg-brand-yellow border-2 border-brand-dark py-5 font-black text-xl text-brand-dark hover:bg-brand-dark hover:text-brand-yellow transition-colors cursor-pointer uppercase tracking-widest relative group brutal-shadow-sm">
+                    Accept
+                    <svg class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity w-8 h-8 text-brand-pink" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4.7z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Features / Grid (NEW SECTION TO EXPAND CONTENT) -->
+    <section id="metodo" class="py-32 bg-brand-light relative border-b-2 border-brand-dark">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="inline-block py-1 px-3 border-2 border-brand-dark font-black tracking-widest uppercase text-xs mb-6 brutal-shadow-sm">A Engenharia da Beleza</span>
+                <h2 class="text-5xl font-black font-display text-brand-dark mb-6">Muito além de um simples bronzeador.</h2>
+                <p class="text-gray-600 text-xl font-medium">Um protocolo clínico rigoroso, executado por profissionais para garantir saúde cutânea e uma cor inigualável.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 brutal-shadow reveal hover:-translate-y-2 transition-transform">
+                    <div class="w-14 h-14 bg-brand-yellow flex items-center justify-center font-black text-xl border-2 border-brand-dark mb-6 brutal-shadow-sm">1</div>
+                    <h3 class="text-2xl font-black text-brand-dark mb-4">Preparação da Pele</h3>
+                    <p class="text-gray-600 font-medium">Esfoliação suave e nivelamento de pH. Garantimos que o bronzeado fixe de forma perfeitamente homogênea.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-8 brutal-shadow reveal hover:-translate-y-2 transition-transform" style="transition-delay: 100ms">
+                    <div class="w-14 h-14 bg-brand-pink text-white flex items-center justify-center font-black text-xl border-2 border-brand-dark mb-6 brutal-shadow-sm">2</div>
+                    <h3 class="text-2xl font-black text-brand-dark mb-4">Micro-Névoa</h3>
+                    <p class="text-gray-600 font-medium">Equipamento de última geração que pulveriza a solução em partículas ultra finas, evitando manchas e acúmulos.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-8 brutal-shadow reveal hover:-translate-y-2 transition-transform" style="transition-delay: 200ms">
+                    <div class="w-14 h-14 bg-brand-dark text-white flex items-center justify-center font-black text-xl border-2 border-brand-dark mb-6 brutal-shadow-sm">3</div>
+                    <h3 class="text-2xl font-black text-brand-dark mb-4">Durabilidade</h3>
+                    <p class="text-gray-600 font-medium">Com os cuidados corretos e o nosso selante pós-aplicação, seu bronzeado se mantém impecável por 7 a 10 dias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Testimonials -->
+    <section id="depoimentos" class="py-32 bg-brand-dark text-white relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 reveal">
+                <div class="max-w-2xl">
+                    <span class="text-brand-yellow uppercase tracking-widest text-sm font-bold mb-4 block">Confidencial</span>
+                    <h2 class="text-5xl font-black font-display text-white leading-tight">O que estão falando<br/>sobre a campanha secreta.</h2>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-brand-light text-brand-dark p-10 brutal-shadow reveal relative">
+                    <div class="absolute -top-6 -right-6 text-brand-pink opacity-20">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                    </div>
+                    <p class="text-xl font-medium mb-8 italic relative z-10 leading-relaxed">"Nunca achei que um Spray Tan ficaria tão natural. Fiz no horário de almoço e voltei pro escritório brilhando. Zero manchas."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-brand-dark text-brand-yellow rounded-full flex items-center justify-center font-black text-xl border-2 border-brand-dark">MS</div>
+                        <div>
+                            <p class="font-black uppercase tracking-widest">Mariana S.</p>
+                            <p class="text-sm font-bold text-gray-500">Arquiteta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-pink text-white p-10 brutal-shadow reveal relative" style="transition-delay: 100ms">
+                    <p class="text-xl font-medium mb-8 italic relative z-10 leading-relaxed">"A cor ficou divina, nada daquele laranja artificial dos sprays antigos. A secagem foi instantânea, vesti minha roupa branca logo depois."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white text-brand-pink rounded-full flex items-center justify-center font-black text-xl border-2 border-brand-dark">CR</div>
+                        <div>
+                            <p class="font-black uppercase tracking-widest text-brand-dark">Camila R.</p>
+                            <p class="text-sm font-bold text-white/80">Influenciadora</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-yellow text-brand-dark p-10 brutal-shadow reveal relative" style="transition-delay: 200ms">
+                    <p class="text-xl font-medium mb-8 italic relative z-10 leading-relaxed">"Achei genial a ideia da campanha. Consegui minha vaga de última hora e o atendimento na clínica Lumière foi impecável."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-brand-dark text-white rounded-full flex items-center justify-center font-black text-xl border-2 border-brand-dark">JM</div>
+                        <div>
+                            <p class="font-black uppercase tracking-widest">Juliana M.</p>
+                            <p class="text-sm font-bold text-gray-700">Médica</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion Section (NEW SECTION TO EXPAND CONTENT) -->
+    <section id="faq" class="py-32 bg-white relative border-b-2 border-brand-dark">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-5xl font-black font-display text-brand-dark mb-4">Ainda tem dúvidas?</h2>
+                <p class="text-gray-600 font-medium">Transparência total sobre o nosso protocolo.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-brand-light brutal-shadow-sm p-2 reveal">
+                    <button class="faq-btn w-full text-left px-6 py-4 flex justify-between items-center focus:outline-none">
+                        <span class="text-xl font-black text-brand-dark">Como devo preparar a minha pele?</span>
+                        <svg class="w-6 h-6 text-brand-pink transform transition-transform duration-300 icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-content">
+                        <p class="px-6 pb-6 pt-2 text-gray-700 font-medium">Recomendamos uma esfoliação leve 24 horas antes. Venha para a sessão com a pele limpa, sem hidratantes, perfumes ou desodorantes. A pele nua garante a aderência total do produto.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-brand-light brutal-shadow-sm p-2 reveal" style="transition-delay: 100ms">
+                    <button class="faq-btn w-full text-left px-6 py-4 flex justify-between items-center focus:outline-none">
+                        <span class="text-xl font-black text-brand-dark">O Spray Tan mancha as roupas?</span>
+                        <svg class="w-6 h-6 text-brand-pink transform transition-transform duration-300 icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-content">
+                        <p class="px-6 pb-6 pt-2 text-gray-700 font-medium">Nossa fórmula possui secagem ultrarrápida. Após 15 minutos, você pode vestir roupas leves (preferencialmente escuras) sem risco de grandes transferências. Após o primeiro banho, a cor fixa na pele e não transfere mais.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-brand-light brutal-shadow-sm p-2 reveal" style="transition-delay: 200ms">
+                    <button class="faq-btn w-full text-left px-6 py-4 flex justify-between items-center focus:outline-none">
+                        <span class="text-xl font-black text-brand-dark">É seguro para gestantes?</span>
+                        <svg class="w-6 h-6 text-brand-pink transform transition-transform duration-300 icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-content">
+                        <p class="px-6 pb-6 pt-2 text-gray-700 font-medium">Sim! Diferente das câmaras artificiais (UV), o nosso Spray Tan atua apenas na camada superficial da pele. No entanto, sempre recomendamos a liberação do seu obstetra por precaução.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Conversion Section (Urgency + Form) -->
+    <section id="agendar" class="py-32 bg-brand-pink border-t-[3px] border-brand-dark relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 xl:grid-cols-12 gap-16 items-center relative z-10">
+            
+            <!-- Context and Countdown -->
+            <div class="xl:col-span-6 reveal-left">
+                <h2 class="text-6xl md:text-7xl font-black font-display text-white mb-6 leading-none drop-shadow-md">
+                    O relógio <br/><span class="text-brand-dark">está correndo.</span>
+                </h2>
+                <p class="text-2xl text-white font-medium mb-12 max-w-lg leading-relaxed drop-shadow-sm">
+                    Mais de <strong class="bg-brand-yellow text-brand-dark px-2">150 vagas</strong> já foram preenchidas. Preencha seus dados agora e garanta sua sessão promocional.
+                </p>
+                
+                <!-- Brutalist Countdown -->
+                <div class="flex gap-4">
+                    <div class="bg-white brutal-shadow p-6 text-center min-w-[100px]">
+                        <span id="hours" class="block text-5xl font-black font-display text-brand-dark">12</span>
+                        <span class="block text-xs font-bold uppercase tracking-widest text-brand-pink mt-2">Horas</span>
+                    </div>
+                    <div class="text-5xl font-black text-brand-dark self-center animate-pulse">:</div>
+                    <div class="bg-white brutal-shadow p-6 text-center min-w-[100px]">
+                        <span id="minutes" class="block text-5xl font-black font-display text-brand-dark">45</span>
+                        <span class="block text-xs font-bold uppercase tracking-widest text-brand-pink mt-2">Min</span>
+                    </div>
+                    <div class="text-5xl font-black text-brand-dark self-center animate-pulse">:</div>
+                    <div class="bg-white brutal-shadow p-6 text-center min-w-[100px]">
+                        <span id="seconds" class="block text-5xl font-black font-display text-brand-dark">30</span>
+                        <span class="block text-xs font-bold uppercase tracking-widest text-brand-pink mt-2">Seg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form w/ Floating Labels -->
+            <div class="xl:col-span-6 reveal-right">
+                <form id="bookingForm" class="bg-white p-10 md:p-12 brutal-shadow" onsubmit="event.preventDefault(); showSuccess();">
+                    <h3 class="text-3xl font-black text-brand-dark uppercase tracking-widest mb-10 border-b-4 border-brand-yellow pb-4 inline-block">Confirmar Vaga</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="form-input-container">
+                            <input type="text" id="nome" required placeholder=" ">
+                            <label for="nome">Nome Completo</label>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-input-container">
+                                <input type="tel" id="whatsapp" required placeholder=" ">
+                                <label for="whatsapp">WhatsApp</label>
+                            </div>
+                            <div class="form-input-container">
+                                <input type="date" id="data" required>
+                                <label for="data" class="!top-0 !text-brand-pink !transform-none !scale-90">Data Desejada</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-brutal w-full text-xl py-6 mt-4 brutal-shadow-sm">
+                            Agendar Minha Sessão
+                        </button>
+                        
+                        <p class="text-center text-xs font-bold text-gray-500 uppercase tracking-widest mt-4">🔒 Seus dados estão seguros.</p>
+                    </div>
+                    
+                    <!-- Success Overlay -->
+                    <div id="successMsg" class="hidden absolute inset-0 bg-brand-dark flex-col items-center justify-center text-center p-12 z-20">
+                        <div class="w-20 h-20 bg-brand-yellow rounded-full flex items-center justify-center mb-6 brutal-shadow">
+                            <svg class="w-10 h-10 text-brand-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h4 class="text-4xl font-black font-display text-brand-yellow mb-4">Vaga Reservada!</h4>
+                        <p class="text-white text-lg font-medium mb-8">A nossa equipa entrará em contacto via WhatsApp em até 15 minutos para confirmar o seu horário.</p>
+                        <button type="button" onclick="document.getElementById('successMsg').classList.add('hidden')" class="btn-brutal px-8 py-4 brutal-shadow-sm">Concluir</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-white pt-24 pb-12 border-t-[4px] border-brand-yellow">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <a href="#" class="font-display font-bold text-3xl tracking-tighter text-white flex items-center gap-2 mb-6">
+                        <svg class="w-8 h-8 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                        LUMIÈRE
+                    </a>
+                    <p class="text-gray-400 max-w-sm font-medium leading-relaxed">
+                        A experiência definitiva em Estética Avançada e Spray Tan. Porque a sua pele merece ser uma obra de arte.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-brand-yellow font-black tracking-widest uppercase text-xs mb-6">Navegação</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#conceito" class="text-gray-400 font-bold hover:text-brand-pink transition-colors">O Segredo</a></li>
+                        <li><a href="#metodo" class="text-gray-400 font-bold hover:text-brand-pink transition-colors">O Método</a></li>
+                        <li><a href="#depoimentos" class="text-gray-400 font-bold hover:text-brand-pink transition-colors">Relatos</a></li>
+                        <li><a href="#faq" class="text-gray-400 font-bold hover:text-brand-pink transition-colors">Dúvidas</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-brand-yellow font-black tracking-widest uppercase text-xs mb-6">Contato</h4>
+                    <ul class="space-y-4 text-gray-400 font-bold">
+                        <li>Rua Exemplo, 123<br/>Belo Horizonte, MG</li>
+                        <li>(31) 99999-0000</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-bold">
+                <p class="text-gray-500 uppercase tracking-widest">© 2026 Clínica Lumière. Todos os direitos reservados.</p>
+                <p class="text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                    Desenvolvido por <span class="text-white">Leone DiCamp</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // 2. Scroll Progress Bar & Navbar Logic
+        const navbar = document.getElementById('navbar');
+        const progressBar = document.getElementById('progress-bar');
+        
+        window.addEventListener('scroll', () => {
+            // Navbar
+            if (window.scrollY > 40) {
+                navbar.classList.remove('top-8');
+                navbar.classList.add('top-0', 'shadow-[0_4px_30px_rgba(0,0,0,0.1)]');
+            } else {
+                navbar.classList.add('top-8');
+                navbar.classList.remove('top-0', 'shadow-[0_4px_30px_rgba(0,0,0,0.1)]');
+            }
+            
+            // Progress Bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        });
+
+        // 3. Countdown Timer
+        let time = 12 * 3600 + 45 * 60 + 30; // 12h 45m 30s
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        setInterval(() => {
+            if(time <= 0) return;
+            time--;
+            
+            let h = Math.floor(time / 3600);
+            let m = Math.floor((time % 3600) / 60);
+            let s = time % 60;
+
+            hoursEl.innerText = h.toString().padStart(2, '0');
+            minutesEl.innerText = m.toString().padStart(2, '0');
+            secondsEl.innerText = s.toString().padStart(2, '0');
+        }, 1000);
+
+        // 4. Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 5. FAQ Accordion Logic
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('.icon');
+                
+                // Close all others
+                document.querySelectorAll('.faq-content').forEach(item => {
+                    if(item !== content) {
+                        item.style.maxHeight = null;
+                        item.previousElementSibling.querySelector('.icon').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Open clicked
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // 6. Form Submission
+        function showSuccess() {
+            document.getElementById('successMsg').classList.remove('hidden');
+            document.getElementById('successMsg').classList.add('flex');
+            document.getElementById('bookingForm').reset();
+        }
+    </script>
+</body>
+</html>
